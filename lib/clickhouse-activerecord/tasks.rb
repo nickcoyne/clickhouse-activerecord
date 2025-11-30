@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 module ClickhouseActiverecord
-  class Tasks
+  # Inherit from AbstractTasks if available (Rails 8.0+)
+  TasksBase = defined?(ActiveRecord::Tasks::AbstractTasks) ? ActiveRecord::Tasks::AbstractTasks : Object
+
+  class Tasks < TasksBase
     delegate :connection, :establish_connection, to: ActiveRecord::Base
 
     def self.using_database_configurations?
